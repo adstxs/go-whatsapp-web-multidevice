@@ -21,6 +21,36 @@
 
 You can fork or edit this source code !
 
+### If install on server
+
+Proxy it to domain
+
+on Apache just like this
+
+```
+ProxyPass / http://localhost:3000/
+ProxyPassReverse / http://localhost:3000/
+<Proxy *>
+    allow from all
+</Proxy>
+```
+
+change **controllers/app_controller.go** on line 31 to your domain
+
+```go
+"qr_link":     "https://mydomain.com/" + response.ImagePath,
+```
+
+change **main.go** on line 49
+
+```go
+return ctx.Render("index", fiber.Map{"AppHost": "https://mydomain.com/"})
+```
+
+start it then access it on server to scan QRcode
+
+everytime you restart the server or service, you must run **reconnect** API
+
 ### Current API
 
 | Feature | Menu                    | Method | URL              | Payload                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
