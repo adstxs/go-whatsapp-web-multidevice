@@ -3,6 +3,12 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"mime"
+	"os"
+	"strings"
+	"sync/atomic"
+	"time"
+
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/config"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/appstate"
@@ -13,11 +19,6 @@ import (
 	"go.mau.fi/whatsmeow/types/events"
 	waLog "go.mau.fi/whatsmeow/util/log"
 	"google.golang.org/protobuf/proto"
-	"mime"
-	"os"
-	"strings"
-	"sync/atomic"
-	"time"
 )
 
 var (
@@ -98,7 +99,7 @@ func InitWaCLI(storeContainer *sqlstore.Container) *whatsmeow.Client {
 	}
 
 	store.CompanionProps.PlatformType = waProto.CompanionProps_UNKNOWN.Enum()
-	store.CompanionProps.Os = proto.String("AldinoKemal")
+	store.CompanionProps.Os = proto.String(config.BrowserName)
 	cli = whatsmeow.NewClient(device, waLog.Stdout("Client", logLevel, true))
 	cli.AddEventHandler(handler)
 
@@ -163,7 +164,7 @@ func handler(rawEvt interface{}) {
 				return
 			}
 			exts, _ := mime.ExtensionsByType(img.GetMimetype())
-			path := fmt.Sprintf("%s%s", evt.Info.ID, exts[0])
+			path := fmt.Sprintf("%s/%s%s", config.PathReceivedItems, evt.Info.ID, exts[0])
 			err = os.WriteFile(path, data, 0600)
 			if err != nil {
 				log.Errorf("Failed to save image: %v", err)
