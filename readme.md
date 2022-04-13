@@ -49,7 +49,9 @@ return ctx.Render("index", fiber.Map{"AppHost": "https://mydomain.com/"})
 
 start it then access it on server to scan QRcode
 
-everytime you restart the server or service, you must run **reconnect** API
+everytime you restart the server or service, you must execute **reconnect** API
+
+or if you get error **code: 401** then execute **reconnect** API, if it still fail, you must scan QRcode again
 
 ### Current API
 
