@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/aldinokemal/go-whatsapp-web-multidevice/config"
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/controllers"
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/middleware"
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/services"
@@ -45,7 +47,7 @@ func main() {
 	userController.Route(app)
 
 	app.Get("/", func(ctx *fiber.Ctx) error {
-		return ctx.Render("index", fiber.Map{"AppHost": "http://localhost:3000"})
+		return ctx.Render("index", fiber.Map{"AppHost": config.AppHost})
 	})
 
 	err := app.Listen(":3000")

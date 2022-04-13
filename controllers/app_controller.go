@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/aldinokemal/go-whatsapp-web-multidevice/config"
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/services"
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/utils"
 	"github.com/gofiber/fiber/v2"
@@ -28,7 +29,7 @@ func (controller *AppController) Login(c *fiber.Ctx) error {
 		Code:    200,
 		Message: "Success",
 		Results: map[string]interface{}{
-			"qr_link":     "http://localhost:3000/" + response.ImagePath,
+			"qr_link":     config.AppHost + response.ImagePath,
 			"qr_duration": response.Duration,
 		},
 	})
