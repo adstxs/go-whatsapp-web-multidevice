@@ -1,26 +1,23 @@
 package validations
 
 import (
+	"strings"
+
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/structs"
 	"github.com/aldinokemal/go-whatsapp-web-multidevice/utils"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
-	"strings"
 )
 
 func ValidateSendMessage(request structs.SendMessageRequest) {
 	err := validation.ValidateStruct(&request,
 		validation.Field(&request.Phone, validation.Required, is.E164, validation.Length(10, 15)),
-		validation.Field(&request.Message, validation.Required, validation.Length(1, 50)),
+		validation.Field(&request.Message, validation.Required, validation.Length(1, 1024)),
 	)
 
 	if err != nil {
 		panic(utils.ValidationError{
 			Message: err.Error(),
-		})
-	} else if !strings.HasPrefix(request.Phone, "62") {
-		panic(utils.ValidationError{
-			Message: "phone number only work for indonesia country (start with 62)",
 		})
 	}
 }
